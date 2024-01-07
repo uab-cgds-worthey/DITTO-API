@@ -1,6 +1,6 @@
 from typing import Union
-
 from fastapi import FastAPI
+from utils.query import get_ditto_score
 
 #  run me https://fastapi.tiangolo.com/#installation
 app = FastAPI()
@@ -25,8 +25,9 @@ def get_scores(chromosome: str, start: int, end: int):
 @app.get("/var/{chromosome}/{position}/{ref}/{alt}")
 def get_variant_score(chromosome, position, ref, alt):
     # TODO call the get_scores function to perform look up, if score not precomputed then call dynamic generation
-    scores = get_scores(chromosome=chromosome, start=position, end=position)
-    return {"variant": f"chr{chromosome}:g.{position}{ref}>{alt}"}
+    scores = get_ditto_score(chrom=chromosome, pos=position, ref=ref, alt=alt)
+    # return {"variant": f"chr{chromosome}:g.{position}{ref}>{alt}"}
+    return {"scores": scores}
 
 
 @app.get("/hgvs/{hgvs_cdna}")

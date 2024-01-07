@@ -28,10 +28,10 @@ def get_parser(data_config):
 
 
 # Function to load model and weights
-def load_model():
+def load_model(clf_path):
     # Load model and weights
-    clf = keras.models.load_model("./results/Neural_network")
-    clf.load_weights("./results/weights.h5")
+    clf = keras.models.load_model(clf_path + "/Neural_network")
+    clf.load_weights(clf_path + "/weights.h5")
     return clf
 
 # Function to query variant reference allele based on posiiton from UCSC API
@@ -60,8 +60,8 @@ def query_variant(chrom: str, pos: int, allele_len: int) -> json:
 
     return get_fields.json()
 
-def main():
-    repo_root = Path(__file__).parent.parent
+def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
+    repo_root = Path(__file__).parent.parent.parent
     # Load the col config file as dictionary
     config_f = repo_root / "configs" / "col_config.yaml"
     config_dict = get_col_configs(config_f)
@@ -71,43 +71,23 @@ def main():
     parser = get_parser(data_config)
 
     # Load the model and data
-    clf = load_model()
+    clf_path = repo_root / "results"
+    clf = load_model(str(clf_path))
 
-    # Query variant reference allele based on posiiton from UCSC API
-    try:
-        actual_ref = query_variant(str(chrom), int(pos), len(ref))["dna"].upper()
-
-    # Handle invalid variant position
-    except:
-        print("Please enter a valid variant info.")
-
-    if ref == actual_ref and ref != alt:
-        try:
-            # Query variant annotations via opencravat API and get data as dataframe
-            overall = parser.query_variant(chrom=str(chrom), pos=int(pos), ref=ref, alt=alt)
-        except:
-            overall = pd.DataFrame()
-
-        # Check if variant annotations are found
-        if overall.empty:
-            print(
-                "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
-            )
-
-        else:
-            # Select transcript
-            transcript = st.selectbox(
-                "**Select a transcript:**", options=list(overall["transcript"].unique())
-            )
-
-            # Filter data based on selected transcript
+    overall = parser.query_variant(chrom=str(chrom), pos=int(pos), ref=ref, alt=alt)
+    # Check if variant annotations are found
+    if overall.empty:
+        return(
+            "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
+        )
+    else:
+        score_dict = {}
+        for transcript in overall["transcript"].unique():
             transcript_data = overall[overall["transcript"] == transcript].reset_index(
                 drop=True
             )
-
-            # Parse and predict
-            df2, y_score = parse_and_predict(transcript_data, config_dict, clf)
+            y_score = parse_and_predict(transcript_data, config_dict, clf)
             y_score = round(y_score[0][0], 2)
+            score_dict[transcript] = str(y_score)
+        return score_dict
 
-if __name__ == "__main__":
-    main()
