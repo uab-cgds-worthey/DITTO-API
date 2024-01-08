@@ -56,7 +56,7 @@ def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
         )
     else:
         var_df_scores = parse_and_predict(overall, config_dict, clf)
-        var_df_scores = var_df_scores.set_index('transcript')
+        # var_df_scores = var_df_scores.set_index('transcript')
         var_df_scores = var_df_scores.astype({"DITTO": str, "pos": str})
         return json.loads(var_df_scores.to_json(orient="index"))
 

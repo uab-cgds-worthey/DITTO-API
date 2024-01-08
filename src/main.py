@@ -14,8 +14,20 @@ def read_root():
 
 @app.get("/var/{chromosome}-{position}-{ref}-{alt}")
 def get_variant_score(chromosome, position, ref, alt):
-    scores = get_ditto_score(chrom=chromosome, pos=position, ref=ref, alt=alt)
-    return {"scores_by_transcript": scores}
+    ref=ref.upper()
+    alt=alt.upper()
+    actual_ref = query_variant(str(chromosome), int(position), len(ref))["dna"].upper()
+    if ref != actual_ref:
+            return { "error" :
+                f"Provided reference nucleotide '{ref}' does not match the actual nucleotide '{actual_ref}' from reference genome. Please fix the variant info and try again."
+            }
+    elif ref == alt:
+        return { "error" :
+            "Reference nucleotide and alternate nucleotide are the same. Please fix the variant info and try again."
+        }
+    else:
+        scores = get_ditto_score(chrom=chromosome, pos=position, ref=ref, alt=alt)
+        return {"scores_by_transcript": scores}
 
 
 # @app.get("/hgvs/{hgvs_cdna}")
@@ -27,28 +39,28 @@ def get_variant_score(chromosome, position, ref, alt):
 #     return {"variant": hgvs_cdna}
 
 
-# # Function to query variant reference allele based on posiiton from UCSC API
-# def query_variant(chrom: str, pos: int, allele_len: int) -> json:
+# Function to query variant reference allele based on posiiton from UCSC API
+def query_variant(chrom: str, pos: int, allele_len: int) -> json:
 
-#     if not chrom.startswith("chr"):
-#         chrom = "chr" + chrom
+    if not chrom.startswith("chr"):
+        chrom = "chr" + chrom
 
-#     url = f"https://api.genome.ucsc.edu/getData/sequence?genome=hg38;chrom={chrom};start={pos-1};end={pos+allele_len-1}"
+    url = f"https://api.genome.ucsc.edu/getData/sequence?genome=hg38;chrom={chrom};start={pos-1};end={pos+allele_len-1}"
 
-#     get_fields = requests.get(url, timeout=20)
+    get_fields = requests.get(url, timeout=20)
 
-#     if "statusCode" in get_fields.json().keys():
-#         print(
-#             f"Error {str(get_fields.json()['statusCode'])}: {get_fields.json()['statusMessage']}. Possibly invalid or out of range position."
-#         )
+    if "statusCode" in get_fields.json().keys():
+        print(
+            f"Error {str(get_fields.json()['statusCode'])}: {get_fields.json()['statusMessage']}. Possibly invalid or out of range position."
+        )
 
-#     # Check if the request was successful
-#     try:
-#         get_fields.raise_for_status()
-#     except requests.exceptions.RequestException as expt:
-#         print(
-#             f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}."
-#         )
-#         raise expt
+    # Check if the request was successful
+    try:
+        get_fields.raise_for_status()
+    except requests.exceptions.RequestException as expt:
+        print(
+            f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}."
+        )
+        raise expt
 
-#     return get_fields.json()
+    return get_fields.json()
