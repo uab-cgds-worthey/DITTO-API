@@ -33,7 +33,7 @@ Change in to root directory and run the command below to install environment:
 # Create an environment. Needed only the first time.
 python3 -m venv ditto-api-env
 source ditto-api-env/bin/activate
-pip3 install -r configs/requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## How to run
@@ -44,6 +44,8 @@ Run the below command to activate the API
 cd src
 uvicorn main:app --reload
 ```
+
+Test the app using this example as web address - http://127.0.0.1:8000/var/1-2406483-C-G
 
 ## Contributing
 

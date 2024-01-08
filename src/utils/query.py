@@ -6,7 +6,6 @@ from utils.parse import OCApiParser
 from utils.predict import parse_and_predict
 from tensorflow import keras
 from pathlib import Path
-import requests
 
 
 # Function to open and load config file for filtering columns and rows
@@ -34,31 +33,6 @@ def load_model(clf_path):
     clf.load_weights(clf_path + "/weights.h5")
     return clf
 
-# Function to query variant reference allele based on posiiton from UCSC API
-def query_variant(chrom: str, pos: int, allele_len: int) -> json:
-
-    if not chrom.startswith("chr"):
-        chrom = "chr" + chrom
-
-    url = f"https://api.genome.ucsc.edu/getData/sequence?genome=hg38;chrom={chrom};start={pos-1};end={pos+allele_len-1}"
-
-    get_fields = requests.get(url, timeout=20)
-
-    if "statusCode" in get_fields.json().keys():
-        print(
-            f"Error {str(get_fields.json()['statusCode'])}: {get_fields.json()['statusMessage']}. Possibly invalid or out of range position."
-        )
-
-    # Check if the request was successful
-    try:
-        get_fields.raise_for_status()
-    except requests.exceptions.RequestException as expt:
-        print(
-            f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}."
-        )
-        raise expt
-
-    return get_fields.json()
 
 def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
     repo_root = Path(__file__).parent.parent.parent
