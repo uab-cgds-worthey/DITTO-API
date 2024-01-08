@@ -2,7 +2,7 @@
 
 <!-- markdown-link-check-disable -->
 [![Perform linting -
-Markdown](https://github.com/uab-cgds-worthey/cgds_repo_template/actions/workflows/linting.yml/badge.svg)](https://github.com/uab-cgds-worthey/cgds_repo_template/actions/workflows/linting.yml)
+Markdown](https://github.com/uab-cgds-worthey/DITTO-API/actions/workflows/linting.yml/badge.svg)](https://github.com/uab-cgds-worthey/DITTO-API/actions/workflows/linting.yml)
 <!-- markdown-link-check-enable -->
 
 ***!!! For research purposes only !!!***
@@ -45,7 +45,8 @@ cd src
 uvicorn main:app --reload
 ```
 
-Test the app using this example as web address - http://127.0.0.1:8000/var/1-2406483-C-G
+Test the app using this example as web address - http://localhost:8000/docs
+ and use this variant as example: 1-2406483-C-G
 
 ## Contributing
 
