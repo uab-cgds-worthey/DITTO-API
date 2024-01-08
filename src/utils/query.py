@@ -1,4 +1,3 @@
-
 import pandas as pd
 import yaml
 import json
@@ -51,12 +50,9 @@ def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
     overall = parser.query_variant(chrom=str(chrom), pos=int(pos), ref=ref, alt=alt)
     # Check if variant annotations are found
     if overall.empty:
-        return(
-            "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
-        )
+        return "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
     else:
         var_df_scores = parse_and_predict(overall, config_dict, clf)
         # var_df_scores = var_df_scores.set_index('transcript')
         var_df_scores = var_df_scores.astype({"DITTO": str, "pos": str})
         return json.loads(var_df_scores.to_json(orient="index"))
-

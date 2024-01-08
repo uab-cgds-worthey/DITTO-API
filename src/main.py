@@ -14,16 +14,16 @@ def read_root():
 
 @app.get("/var/{chromosome}-{position}-{ref}-{alt}")
 def get_variant_score(chromosome, position, ref, alt):
-    ref=ref.upper()
-    alt=alt.upper()
+    ref = ref.upper()
+    alt = alt.upper()
     actual_ref = query_variant(str(chromosome), int(position), len(ref))["dna"].upper()
     if ref != actual_ref:
-            return { "error" :
-                f"Provided reference nucleotide '{ref}' does not match the actual nucleotide '{actual_ref}' from reference genome. Please fix the variant info and try again."
-            }
+        return {
+            "error": f"Provided reference nucleotide '{ref}' does not match the actual nucleotide '{actual_ref}' from reference genome. Please fix the variant info and try again."
+        }
     elif ref == alt:
-        return { "error" :
-            "Reference nucleotide and alternate nucleotide are the same. Please fix the variant info and try again."
+        return {
+            "error": "Reference nucleotide and alternate nucleotide are the same. Please fix the variant info and try again."
         }
     else:
         scores = get_ditto_score(chrom=chromosome, pos=position, ref=ref, alt=alt)
@@ -58,9 +58,7 @@ def query_variant(chrom: str, pos: int, allele_len: int) -> json:
     try:
         get_fields.raise_for_status()
     except requests.exceptions.RequestException as expt:
-        print(
-            f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}."
-        )
+        print(f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}.")
         raise expt
 
     return get_fields.json()
