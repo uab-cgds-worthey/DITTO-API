@@ -3,10 +3,10 @@
 Here is a changelog format you could use. Feel free to choose a format that works for the repo.
 
 ```txt
-YYYY-MM-DD  John Doe
+2024-01-08  Tarun Mamidi
 
-* Big Change 1
-* Another Change 2
+* Added functionality from [DITTO-UI](https://github.com/uab-cgds-worthey/DITTO-UI) repo to query OpenCravat and make DITTO predictions.
+* Uses FastAPI
 ```
 
 ---
