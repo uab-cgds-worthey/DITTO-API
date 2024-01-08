@@ -5,6 +5,7 @@ import numpy as np
 def parse_and_predict(dataframe, config_dict, clf):
     # Drop variant info columns so we can perform one-hot encoding
     dataframe["so"] = dataframe["consequence"].copy()
+    var = dataframe[["transcript","gene","consequence","chrom","pos","ref_base","alt_base"]]
     dataframe = dataframe.drop(config_dict["id_cols"], axis=1)
     dataframe = dataframe.replace([".", "-", ""], np.nan)
     for key in dataframe.columns:
@@ -44,5 +45,9 @@ def parse_and_predict(dataframe, config_dict, clf):
             )
 
     y_score = 1 - clf.predict(df2, verbose=0)
-    del temp_df,df2
-    return y_score
+    y_score = pd.DataFrame(y_score, columns=["DITTO"])
+
+    var = pd.concat([var.reset_index(drop=True), y_score.reset_index(drop=True)], axis=1)
+
+    del temp_df,df2, y_score
+    return var

@@ -81,13 +81,8 @@ def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
             "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
         )
     else:
-        score_dict = {}
-        for transcript in overall["transcript"].unique():
-            transcript_data = overall[overall["transcript"] == transcript].reset_index(
-                drop=True
-            )
-            y_score = parse_and_predict(transcript_data, config_dict, clf)
-            y_score = round(y_score[0][0], 2)
-            score_dict[transcript] = str(y_score)
-        return score_dict
+        var_df_scores = parse_and_predict(overall, config_dict, clf)
+        var_df_scores = var_df_scores.set_index('transcript')
+        var_df_scores = var_df_scores.astype({"DITTO": str, "pos": str})
+        return json.loads(var_df_scores.to_json(orient="index"))
 
