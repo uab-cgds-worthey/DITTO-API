@@ -1,5 +1,6 @@
 import pandas as pd
 import yaml
+import requests
 import json
 from utils.parse import OCApiParser
 from utils.predict import parse_and_predict
@@ -53,6 +54,30 @@ def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
         return "Could not get variant annotations from OpenCravat's API. Please check the variant info and try again."
     else:
         var_df_scores = parse_and_predict(overall, config_dict, clf)
-        # var_df_scores = var_df_scores.set_index('transcript')
+        var_df_scores = var_df_scores.set_index('transcript')
         var_df_scores = var_df_scores.astype({"DITTO": str, "pos": str})
         return json.loads(var_df_scores.to_json(orient="index"))
+
+# Function to query variant reference allele based on posiiton from UCSC API
+def query_variant(chrom: str, pos: int, allele_len: int) -> json:
+
+    if not chrom.startswith("chr"):
+        chrom = "chr" + chrom
+
+    url = f"https://api.genome.ucsc.edu/getData/sequence?genome=hg38;chrom={chrom};start={pos-1};end={pos+allele_len-1}"
+
+    get_fields = requests.get(url, timeout=20)
+
+    if "statusCode" in get_fields.json().keys():
+        print(
+            f"Error {str(get_fields.json()['statusCode'])}: {get_fields.json()['statusMessage']}. Possibly invalid or out of range position."
+        )
+
+    # Check if the request was successful
+    try:
+        get_fields.raise_for_status()
+    except requests.exceptions.RequestException as expt:
+        print(f"Could not get UCSC Annotations for chrom={chrom} and pos={str(pos)}.")
+        raise expt
+
+    return get_fields.json()
