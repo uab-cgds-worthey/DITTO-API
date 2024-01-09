@@ -14,7 +14,7 @@ Repo for querying DITTO predictions for variants using FastAPI.
 Following are required:
 
 - [git](https://git-scm.com/downloads)
-- [python virtual environment](https://docs.python.org/3/tutorial/venv.html)
+- python3.7+  & [python virtual environment](https://docs.python.org/3/tutorial/venv.html)
 - pip3
 
 ## How to install
