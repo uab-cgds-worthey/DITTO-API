@@ -1,4 +1,3 @@
-import pandas as pd
 import yaml
 import requests
 import json
