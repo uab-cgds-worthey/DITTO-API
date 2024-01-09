@@ -2,7 +2,6 @@ from pathlib import Path
 import argparse
 import os
 import json
-import yaml
 import pandas as pd
 import requests
 
