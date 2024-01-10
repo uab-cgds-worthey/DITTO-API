@@ -45,7 +45,8 @@ cd src
 uvicorn main:app --reload
 ```
 
-Test the app using this example as web address - <http://127.0.0.1:8000/docs>
+Test the app using this example as web address -
+<a href="http://localhost:8000" target="_blank" rel="noreferrer noopener">http://localhost:8000</a>
  and use this variant as example: 1-2406483-C-G
 
 ## Contributing
