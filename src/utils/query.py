@@ -57,6 +57,7 @@ def get_ditto_score(chrom: str, pos: int, ref: str, alt: str):
         var_df_scores = var_df_scores.astype({"DITTO": str, "pos": str})
         return json.loads(var_df_scores.to_json(orient="index"))
 
+
 # Function to query variant reference allele based on posiiton from UCSC API
 def query_variant(chrom: str, pos: int, allele_len: int) -> json:
 
