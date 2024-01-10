@@ -45,7 +45,7 @@ cd src
 uvicorn main:app --reload
 ```
 
-Test the app using this example as web address - http://localhost:8000/docs
+Test the app using this example as web address - <http://localhost:8000/docs>
  and use this variant as example: 1-2406483-C-G
 
 ## Contributing
