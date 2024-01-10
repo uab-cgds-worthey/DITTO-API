@@ -46,7 +46,9 @@ uvicorn main:app --reload
 ```
 
 Test the app using this example as web address -
-<a href="http://localhost:8000" target="_blank" rel="noreferrer noopener">http://localhost:8000</a>
+<!-- markdown-link-check-disable -->
+<http://localhost:8000/docs>
+<!-- markdown-link-check-enable -->
  and use this variant as example: 1-2406483-C-G
 
 ## Contributing
