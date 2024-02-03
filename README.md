@@ -17,7 +17,6 @@ Following are required:
 - python3.7+
 - [Docker](https://www.docker.com/products/docker-desktop)
 
-
 ## Installing
 
 *1.* Clone the repository - change in to directory of your choice and run:
