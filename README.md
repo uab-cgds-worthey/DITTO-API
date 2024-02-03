@@ -14,38 +14,38 @@ Repo for querying DITTO predictions for variants using FastAPI.
 Following are required:
 
 - [git](https://git-scm.com/downloads)
-- python3.7+  & [python virtual environment](https://docs.python.org/3/tutorial/venv.html)
-- pip3
+- python3.7+
+- [Docker](https://www.docker.com/products/docker-desktop)
 
-## How to install
 
-Installation simply requires fetching the source code.
+## Installing
 
-To fetch source code, change in to directory of your choice and run:
+*1.* Clone the repository - change in to directory of your choice and run:
 
 ```sh
 git clone https://github.com/uab-cgds-worthey/DITTO-API.git
 ```
 
-Change in to root directory and run the command below to install environment:
+*2.* Navigate to the project directory
 
 ```sh
-# Create an environment. Needed only the first time.
-python3 -m venv ditto-api-env
-source ditto-api-env/bin/activate
-pip3 install -r requirements.txt
+cd DITTO-API
 ```
 
-## How to run
-
-Run the below command to activate the API
+*3.* Build the Docker image
 
 ```sh
-cd src
-uvicorn main:app --reload
+docker build -t ditto-api .
 ```
 
-Test the app using this example as web address -
+*4.* Run the Docker container
+
+```sh
+docker run -p 8000:8000 --name ditto-api ditto-api
+```
+
+*5.* Use this link in your browser to retrieve DITTO scores
+
 <!-- markdown-link-check-disable -->
 <http://localhost:8000/docs>
 <!-- markdown-link-check-enable -->
@@ -60,6 +60,6 @@ We welcome contributions! [See the docs for guidelines](./CONTRIBUTING.md).
 For issues, please send an email with clear description to
 
 |Name | Email |
-------|--------|
-Tarun Mamidi | <tmamidi@uab.edu>
-Brandon Wilk | <bwilk777@uab.edu>
+|------|--------|
+|Tarun Mamidi | <tmamidi@uab.edu>|
+|Brandon Wilk | <bwilk777@uab.edu>|

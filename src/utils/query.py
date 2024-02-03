@@ -1,8 +1,8 @@
 import yaml
 import requests
 import json
-from utils.parse import OCApiParser
-from utils.predict import parse_and_predict
+from .parse import OCApiParser
+from .predict import parse_and_predict
 from tensorflow import keras
 from pathlib import Path
 
