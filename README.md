@@ -47,13 +47,13 @@ docker run -p 8000:8000 --name ditto-api ditto-api
 
 <!-- markdown-link-check-disable -->
 <http://localhost:8000/docs>
-<!-- markdown-link-check-enable -->
  and use this variant as example: 1-2406483-C-G
 
 ## Expected result
 
 DITTO will output deleterious score by Ensemble transcript. Below is the output for the above test variant. To verify
 the scores, please query the variant in the [DITTO web app](https://cgds-ditto.streamlit.app/).
+<!-- markdown-link-check-enable -->
 
 ```sh
 {
