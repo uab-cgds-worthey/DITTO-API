@@ -50,6 +50,72 @@ docker run -p 8000:8000 --name ditto-api ditto-api
 <!-- markdown-link-check-enable -->
  and use this variant as example: 1-2406483-C-G
 
+## Expected result
+
+DITTO will output deleterious score by Ensemble transcript. Below is the output for the above test variant. To verify
+the scores, please query the variant in the [DITTO web app](https://cgds-ditto.streamlit.app/).
+
+```sh
+{
+  "scores_by_transcript": {
+    "ENST00000288774.7": {
+      "gene": "PEX10",
+      "consequence": "intron_variant,splice_site_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    },
+    "ENST00000447513.6": {
+      "gene": "PEX10",
+      "consequence": "intron_variant,splice_site_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    },
+    "ENST00000507596.5": {
+      "gene": "PEX10",
+      "consequence": "intron_variant,splice_site_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    },
+    "ENST00000510434.1": {
+      "gene": "PEX10",
+      "consequence": "2kb_downstream_variant,NMD_transcript_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    },
+    "ENST00000378513.7": {
+      "gene": "RER1",
+      "consequence": "2kb_downstream_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    },
+    "ENST00000605895.6": {
+      "gene": "RER1",
+      "consequence": "2kb_downstream_variant",
+      "chrom": "chr1",
+      "pos": "2406483",
+      "ref_base": "C",
+      "alt_base": "G",
+      "DITTO": "1.0"
+    }
+  }
+}
+```
+
 ## Contributing
 
 We welcome contributions! [See the docs for guidelines](./CONTRIBUTING.md).
