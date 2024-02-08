@@ -1,0 +1,14 @@
+# .dockerignore
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+*/*~
+.dockerignore
+.git
+.gitignore
+tests/
+*.log
+*.csv
+*.json
+*.md

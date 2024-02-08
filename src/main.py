@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from utils.query import get_ditto_score, query_variant
-import json
+from .utils.query import get_ditto_score, query_variant
 
 #  run me https://fastapi.tiangolo.com/#installation
 app = FastAPI()
